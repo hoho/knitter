@@ -1,0 +1,26 @@
+{
+    "name": "knitter",
+    "version": "0.0.0",
+    "homepage": "https://github.com/hoho/knitter",
+    "authors": [
+        "Marat Abdullin <dakota@brokenpipe.ru>"
+    ],
+    "description": "An arrow between two DOM nodes",
+    "main": "knitter.js",
+    "keywords": [
+        "knitter",
+        "arrow",
+        "DOM",
+        "connect"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "test.html",
+        "*.md",
+        "package.json",
+        "bower.json",
+        "gulpfile.js"
+    ]
+}

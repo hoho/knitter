@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knitter Test</title>
+<script src="knitter.min.js"></script>
+<script>
+function createTestKnitters() {
+}
+</script>
+<style>
+.knitter-node {
+    border: 1px solid #000;
+
+    height: 200px;
+
+    margin: 100px;
+
+    width: 30%;
+}
+
+.left-right {
+    white-space: nowrap;
+}
+
+.left-right .knitter-node {
+    display: inline-block;
+}
+
+.knitter1-node1 { margin: 50px 100px 150px 100px; }
+.knitter1-node2 { margin: 150px 100px 50px 100px; }
+
+.knitter2-node1 { margin: 150px 100px 50px 100px; }
+.knitter2-node2 { margin: 50px 100px 150px 100px; }
+
+.knitter4-node1 { margin: 100px 50px 100px 150px; }
+.knitter4-node2 { margin: 100px 150px 100px 50px; }
+
+.knitter5-node1 { margin: 100px 150px 100px 50px; }
+.knitter5-node2 { margin: 100px 50px 100px 150px; }
+</style>
+<body onload="createTestKnitters()">
+
+<div class="left-right">
+    <div>
+        <div class="knitter1-node1 knitter-node"></div>
+        <div class="knitter1-node2 knitter-node"></div>
+    </div>
+
+    <div>
+        <div class="knitter2-node1 knitter-node"></div>
+        <div class="knitter2-node2 knitter-node"></div>
+    </div>
+
+    <div>
+        <div class="knitter3-node1 knitter-node"></div>
+        <div class="knitter3-node2 knitter-node"></div>
+    </div>
+</div>
+
+<div class="top-bottom">
+    <div>
+        <div class="knitter4-node1 knitter-node"></div>
+        <div class="knitter4-node2 knitter-node"></div>
+    </div>
+
+    <div>
+        <div class="knitter5-node1 knitter-node"></div>
+        <div class="knitter5-node2 knitter-node"></div>
+    </div>
+
+    <div>
+        <div class="knitter6-node1 knitter-node"></div>
+        <div class="knitter6-node2 knitter-node"></div>
+    </div>
+</div>
+
+<script>
+    Knitter('.knitter1-node1', '.knitter1-node2');
+    Knitter('.knitter2-node1', '.knitter2-node2');
+    Knitter('.knitter3-node1', '.knitter3-node2');
+    Knitter('.knitter4-node1', '.knitter4-node2');
+    Knitter('.knitter5-node1', '.knitter5-node2');
+    Knitter('.knitter6-node1', '.knitter6-node2');
+
+    Knitter('.knitter2-node1', '.knitter1-node2');
+    Knitter('.knitter3-node1', '.knitter1-node2');
+    Knitter('.knitter1-node1', '.knitter2-node2');
+    Knitter('.knitter1-node1', '.knitter3-node2');
+
+    Knitter('.knitter3-node2', '.knitter4-node1');
+    Knitter('.knitter3-node2', '.knitter5-node2');
+
+</script>
+
+</body>
+</html>

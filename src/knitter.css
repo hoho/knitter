@@ -1,0 +1,42 @@
+.Knitter {
+    background: #000;
+
+    display: none;
+
+    height: 3px;
+
+    position: absolute;
+
+    transform-origin: 0 0;
+}
+
+.Knitter:before,
+.Knitter:after
+{
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+
+    content: '';
+
+    height: 1px;
+
+    margin: -4px 0 0 0;
+
+    position: absolute;
+
+    width: 1px;
+}
+
+
+.Knitter:before {
+    border-right: 10px solid #000;
+
+    margin-left: -3px;
+}
+
+
+.Knitter:after {
+    border-left: 10px solid #000;
+
+    right: -3px;
+}
