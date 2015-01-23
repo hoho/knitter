@@ -1,6 +1,6 @@
 {
   "name": "knitter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "An arrow between two DOM nodes",
   "main": "knitter.js",
   "scripts": {

@@ -3,7 +3,9 @@
 
     display: none;
 
-    height: 3px;
+    height: 1px;
+
+    opacity: .4;
 
     position: absolute;
 
@@ -13,14 +15,14 @@
 .Knitter:before,
 .Knitter:after
 {
-    border-bottom: 5px solid transparent;
-    border-top: 5px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid transparent;
 
     content: '';
 
     height: 1px;
 
-    margin: -4px 0 0 0;
+    margin: -3px 0 0 0;
 
     position: absolute;
 
@@ -29,14 +31,14 @@
 
 
 .Knitter:before {
-    border-right: 10px solid #000;
+    border-right: 9px solid #000;
 
     margin-left: -3px;
 }
 
 
 .Knitter:after {
-    border-left: 10px solid #000;
+    border-left: 9px solid #000;
 
     right: -3px;
 }

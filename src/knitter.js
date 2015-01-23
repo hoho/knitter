@@ -1,5 +1,5 @@
 /*!
- * knitter v0.0.0, https://github.com/hoho/knitter
+ * knitter v0.0.1, https://github.com/hoho/knitter
  * (c) 2015 Marat Abdullin, MIT license
  */
 (function(window, document) {
@@ -69,52 +69,77 @@
             tmp = r2bottom; r2bottom = r1bottom; r1bottom = tmp;
         }
 
-        var tan = (y2 - y1) / (x2 - x1),
-            angle = Math.atan(tan),
-            width = Math.round(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))),
-            sin = (y2 - y1) / width,
-            cos = (x2 - x1) / width;
+        var a1 = (r1right - r1left) / 2,
+            b1 = (r1bottom - r1top) / 2,
+            a2 = (r2right - r2left) / 2,
+            b2 = (r2bottom - r2top) / 2,
+            k = (y2 - y1) / (x2 - x1),
+            angle = Math.atan(k),
 
-        if (r1right < r2left &&
-            (r1bottom > r2top || (r2left - r1right > r2top - r1bottom)) &&
-            (r2bottom > r1top || (r2left - r1right > r1top - r2bottom)))
-        {
-            tmp = (r1right - r1left) / 2;
-            width -= tmp / cos;
-            x1 += tmp + 3 * cos;
-            y1 += tmp * tan;
-            tmp = (r2right - r2left) / 2;
-            width -= tmp / cos;
-        } else if (r1bottom < r2top) {
-            tmp = (r1bottom - r1top) / 2;
-            width -= tmp / sin;
-            y1 += tmp + 3 * sin;
-            x1 += tmp * (1 / tan);
-            tmp = (r2bottom - r2top) / 2;
-            width -= tmp / sin;
-        } else if (r2bottom < r1top) {
-            tmp = (r2bottom - r2top) / 2;
-            width += tmp / sin;
-            y1 -= (tmp - 3 * sin);
-            x1 -= tmp * (1 / tan);
-            tmp = (r1bottom - r1top) / 2;
-            width += tmp / sin;
-        } else {
-            // node1 and node2 intersect.
-            width = 0;
+            // Intersections with each side of both squares.
+            intersects1 = [
+                [x1 + a1, y1 + k * a1],
+                [x1 - a1, y1 - k * a1],
+                [x1 + b1 / k, y1 + b1],
+                [x1 - b1 / k, y1 - b1]
+            ],
+            intersects2 = [
+                [x2 + a2, y2 + k * a2],
+                [x2 - a2, y2 - k * a2],
+                [x2 + b2 / k, y2 + b2],
+                [x2 - b2 / k, y2 - b2]
+            ],
+
+            width,
+            cur,
+            begin;
+
+        // Find two closest points on the sides.
+        for (var i = 0; i < intersects1.length; i++) {
+            var p1 = intersects1[i];
+            if ((p1[0] >= x1 - a1) &&
+                (p1[0] <= x1 + a1) &&
+                (p1[1] >= y1 - b1) &&
+                (p1[1] <= y1 + b1))
+            {
+                for (var j = 0; j < intersects2.length; j++) {
+                    var p2 = intersects2[j];
+                    if ((p2[0] >= x2 - a2) &&
+                        (p2[0] <= x2 + a2) &&
+                        (p2[1] >= y2 - b2) &&
+                        (p2[1] <= y2 + b2) &&
+                        // Make sure squares don't intersect.
+                        ((p1[0] < x2 - a2) ||
+                         (p1[0] > x2 + a2) ||
+                         (p1[1] < y2 - b2) ||
+                         (p1[1] > y2 + b2)))
+                    {
+                        cur = getDistance(p1, p2);
+                        if (width === undefined || cur < width) {
+                            width = cur;
+                            begin = p1;
+                        }
+                    }
+                }
+            }
         }
 
-        width = Math.round(width) - 6;
+        width = Math.round(width) - 6; // width will be NaN in case of intersection.
         tmp = 'transform:' + 'rotate(' + angle + 'rad);';
         knitter.style.cssText = width > 0 ?
             'display:block;' +
-            'left:' + Math.round(x1) + 'px;' +
-            'top:' + Math.round(y1) + 'px;' +
+            'left:' + Math.round(begin[0] + 3 * Math.cos(angle)) + 'px;' +
+            'top:' + Math.round(begin[1] + 3 * Math.sin(angle)) + 'px;' +
             'width:' + width + 'px;' +
             '-webkit-' + tmp +
             '-ms-' + tmp +
             tmp
             :
             'display:none;';
+    }
+
+
+    function getDistance(p1, p2) {
+        return Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
     }
 })(window, document);
