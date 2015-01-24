@@ -50,8 +50,8 @@
             r2right = r2.right,
             r2top = r2.top,
             r2bottom = r2.bottom,
-            scrollX = window.scrollX,
-            scrollY = window.scrollY,
+            scrollX = window.pageXOffset,
+            scrollY = window.pageYOffset,
 
             x1 = scrollX + r1left + ((r1right - r1left) / 2),
             y1 = scrollY + r1top + ((r1bottom - r1top) / 2),
