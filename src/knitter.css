@@ -3,7 +3,7 @@
 
     display: none;
 
-    height: 1px;
+    height: 2px;
 
     opacity: .4;
 
@@ -15,30 +15,34 @@
 .Knitter:before,
 .Knitter:after
 {
-    border-bottom: 3px solid transparent;
-    border-top: 3px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-bottom-style: inset;
+    border-top: 30px solid transparent;
+    border-top-style: inset;
 
     content: '';
 
-    height: 1px;
+    height: 0;
 
-    margin: -3px 0 0 0;
+    margin: -29px -40px 0 0;
 
     position: absolute;
 
-    width: 1px;
+    transform: scale(.1);
+
+    width: 0;
 }
 
 
 .Knitter:before {
-    border-right: 9px solid #000;
+    border-right: 90px solid #000;
 
-    margin-left: -3px;
+    margin-left: -43px;
 }
 
 
 .Knitter:after {
-    border-left: 9px solid #000;
+    border-left: 90px solid #000;
 
     right: -3px;
 }

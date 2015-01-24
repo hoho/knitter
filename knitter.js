@@ -33,7 +33,7 @@
     });
 
     style = document.createElement('style');
-    style.innerHTML = '.Knitter{background:#000;display:none;height:1px;opacity:.4;position:absolute;-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}.Knitter:after,.Knitter:before{border-bottom:3px solid transparent;border-top:3px solid transparent;content:\'\';height:1px;margin:-3px 0 0;position:absolute;width:1px}.Knitter:before{border-right:9px solid #000;margin-left:-3px}.Knitter:after{border-left:9px solid #000;right:-3px}';
+    style.innerHTML = '.Knitter{background:#000;display:none;height:2px;opacity:.4;position:absolute;-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}.Knitter:after,.Knitter:before{border-bottom:30px solid transparent;border-bottom-style:inset;border-top:30px solid transparent;border-top-style:inset;content:\'\';height:0;margin:-29px -40px 0 0;position:absolute;-webkit-transform:scale(.1);-ms-transform:scale(.1);transform:scale(.1);width:0}.Knitter:before{border-right:90px solid #000;margin-left:-43px}.Knitter:after{border-left:90px solid #000;right:-3px}';
     document.head.appendChild(style);
 
 
