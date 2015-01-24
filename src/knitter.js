@@ -10,25 +10,27 @@
         requestAnimationFrame = window.requestAnimationFrame || setTimeout,
         style;
 
-    function Knitter(node1, node2, parent) {
+    function Knitter(from, to, settings) {
         if (!(this instanceof Knitter)) {
-            return new Knitter(node1, node2, parent);
+            return new Knitter(from, to, settings);
         }
 
-        if (!(node1 instanceof Node)) { node1 = document.querySelector(node1); }
-        if (!(node2 instanceof Node)) { node2 = document.querySelector(node2); }
+        if (!(from instanceof Node)) { from = document.querySelector(from); }
+        if (!(to instanceof Node)) { to = document.querySelector(to); }
+        settings = settings || {};
+        var parent = settings.parent;
         if (parent && !(parent instanceof Node)) { parent = document.querySelector(parent); }
 
-        if ((node1 instanceof Node) &&
-            (node2 instanceof Node) &&
+        if ((from instanceof Node) &&
+            (to instanceof Node) &&
             (!parent || (parent && (parent instanceof Node))))
         {
             var self = this,
                 knitter = self.node = document.createElement('div');
 
             self.id = nextId++;
-            self.node1 = node1;
-            self.node2 = node2;
+            self.from = from;
+            self.to = to;
 
             knitter.className = 'Knitter';
             (parent || document.body).appendChild(knitter);
@@ -71,8 +73,8 @@
 
     function setKnitterPosition(self) {
         var node = self.node,
-            node1 = self.node1,
-            node2 = self.node2,
+            from = self.from,
+            to = self.to,
             offsetLeft = 0,
             offsetTop = 0,
             i = node,
@@ -97,7 +99,6 @@
             if (i) {
                 offsetLeft += (i.offsetLeft || 0) + (i.clientLeft || 0);
                 offsetTop += (i.offsetTop || 0) + (i.clientTop || 0);
-                console.log(i, i.offsetTop, i.clientTop);
             }
         }
 
@@ -105,10 +106,10 @@
             knitters[self.id] = self;
         }
 
-        var r1 = node1.getBoundingClientRect(),
-            r2 = node2.getBoundingClientRect(),
+        var r1 = from.getBoundingClientRect(),
+            r2 = to.getBoundingClientRect(),
 
-            // Shortcuts for a better minification.
+        // Shortcuts for a better minification.
             r1left = r1.left,
             r1right = r1.right,
             r1top = r1.top,
@@ -144,7 +145,7 @@
             k = (y2 - y1) / (x2 - x1),
             angle = Math.atan(k),
 
-            // Intersections with each side of both squares.
+        // Intersections with each side of both squares.
             intersects1 = [
                 [x1 + a1, y1 + k * a1],
                 [x1 - a1, y1 - k * a1],
@@ -176,11 +177,11 @@
                         (p2[0] <= x2 + a2) &&
                         (p2[1] >= y2 - b2) &&
                         (p2[1] <= y2 + b2) &&
-                        // Make sure squares don't intersect.
+                            // Make sure squares don't intersect.
                         ((p1[0] < x2 - a2) ||
-                         (p1[0] > x2 + a2) ||
-                         (p1[1] < y2 - b2) ||
-                         (p1[1] > y2 + b2)))
+                        (p1[0] > x2 + a2) ||
+                        (p1[1] < y2 - b2) ||
+                        (p1[1] > y2 + b2)))
                     {
                         cur = getDistance(p1, p2);
                         if (width === undefined || cur < width) {
@@ -195,13 +196,13 @@
         width = Math.round(width) - 6; // width will be NaN in case of intersection.
         i = 'transform:' + 'rotate(' + angle + 'rad);';
         node.style.cssText = width > 0 ?
-            'display:block;' +
-            'left:' + Math.round(begin[0] + 3 * Math.cos(angle) - offsetLeft) + 'px;' +
-            'top:' + Math.round(begin[1] + 3 * Math.sin(angle) - offsetTop) + 'px;' +
-            'width:' + width + 'px;' +
-            '-webkit-' + i +
-            '-ms-' + i +
-            i
+        'display:block;' +
+        'left:' + Math.round(begin[0] + 3 * Math.cos(angle) - offsetLeft) + 'px;' +
+        'top:' + Math.round(begin[1] + 3 * Math.sin(angle) - offsetTop) + 'px;' +
+        'width:' + width + 'px;' +
+        '-webkit-' + i +
+        '-ms-' + i +
+        i
             :
             'display:none;';
     }
