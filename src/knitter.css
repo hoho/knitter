@@ -26,6 +26,8 @@
 
     margin: -29px -40px 0 0;
 
+    opacity: .01;
+
     position: absolute;
 
     transform: scale(.1);
@@ -45,4 +47,11 @@
     border-left: 90px solid #000;
 
     right: -3px;
+}
+
+
+.Knitter_from:before,
+.Knitter_to:after
+{
+    opacity: 1;
 }

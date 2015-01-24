@@ -8,16 +8,16 @@
 <script src="knitter.min.js"></script>
 <script>
 function createTestKnitters() {
-    Knitter('.knitter1-node1', '.knitter1-node2');
-    Knitter('.knitter2-node1', '.knitter2-node2');
-    Knitter('.knitter3-node1', '.knitter3-node2');
+    Knitter('.knitter1-node1', '.knitter1-node2', {dir: 'forward'});
+    Knitter('.knitter2-node1', '.knitter2-node2', {dir: 'back'});
+    Knitter('.knitter3-node1', '.knitter3-node2', {dir: 'none'});
     Knitter('.knitter4-node1', '.knitter4-node2');
     Knitter('.knitter5-node1', '.knitter5-node2');
     Knitter('.knitter6-node1', '.knitter6-node2');
 
-    Knitter('.knitter2-node1', '.knitter1-node2');
-    Knitter('.knitter3-node1', '.knitter1-node2');
-    Knitter('.knitter1-node1', '.knitter2-node2');
+    Knitter('.knitter2-node1', '.knitter1-node2', {dir: 'forward'});
+    Knitter('.knitter3-node1', '.knitter1-node2', {dir: 'back'});
+    Knitter('.knitter1-node1', '.knitter2-node2', {dir: 'none'});
     Knitter('.knitter1-node1', '.knitter3-node2');
 
     Knitter('.knitter3-node2', '.knitter4-node1', '.top-bottom');
