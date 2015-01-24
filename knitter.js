@@ -10,24 +10,56 @@
         requestAnimationFrame = window.requestAnimationFrame || setTimeout,
         style;
 
-    window.Knitter = function(node1, node2) {
+    function Knitter(node1, node2, parent) {
+        if (!(this instanceof Knitter)) {
+            return new Knitter(node1, node2, parent);
+        }
+
         if (!(node1 instanceof Node)) { node1 = document.querySelector(node1); }
         if (!(node2 instanceof Node)) { node2 = document.querySelector(node2); }
+        if (parent && !(parent instanceof Node)) { parent = document.querySelector(parent); }
 
-        if ((node1 instanceof Node) && (node2 instanceof Node)) {
-            var knitter = document.createElement('div');
+        if ((node1 instanceof Node) &&
+            (node2 instanceof Node) &&
+            (!parent || (parent && (parent instanceof Node))))
+        {
+            var self = this,
+                knitter = self.node = document.createElement('div');
+
+            self.id = nextId++;
+            self.node1 = node1;
+            self.node2 = node2;
+
             knitter.className = 'Knitter';
-            document.body.appendChild(knitter);
-            requestAnimationFrame(function() {
-                setKnitterPosition.apply(null, (knitters[nextId++] = [knitter, node1, node2]));
-            }, 0);
+            (parent || document.body).appendChild(knitter);
+
+            self.update(true);
+        }
+    }
+
+    Knitter.prototype.update = function(reqFrame) {
+        var self = this;
+        if (reqFrame) {
+            requestAnimationFrame(function() { setKnitterPosition(self); }, 0);
+        } else {
+            setKnitterPosition(self);
         }
     };
+
+    Knitter.prototype.remove = function() {
+        var node = this.node;
+        if (node && node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+        delete knitters[this.id];
+    };
+
+    window.Knitter = Knitter;
 
     window.addEventListener('resize', function() {
         requestAnimationFrame(function() {
             for (var id in knitters) {
-                setKnitterPosition.apply(null, knitters[id]);
+                setKnitterPosition(knitters[id]);
             }
         }, 0);
     });
@@ -37,7 +69,25 @@
     document.head.appendChild(style);
 
 
-    function setKnitterPosition(knitter, node1, node2) {
+    function setKnitterPosition(self) {
+        var node = self.node,
+            node1 = self.node1,
+            node2 = self.node2,
+            tmp = node;
+
+        while (tmp) {
+            if (tmp === document.body) { break; }
+            tmp = tmp.parentNode;
+        }
+        if (!tmp) {
+            delete knitters[self.id];
+            return;
+        }
+
+        if (!(self.id in knitters)) {
+            knitters[self.id] = self;
+        }
+
         var r1 = node1.getBoundingClientRect(),
             r2 = node2.getBoundingClientRect(),
 
@@ -56,9 +106,7 @@
             x1 = scrollX + r1left + ((r1right - r1left) / 2),
             y1 = scrollY + r1top + ((r1bottom - r1top) / 2),
             x2 = scrollX + r2left + ((r2right - r2left) / 2),
-            y2 = scrollY + r2top + ((r2bottom - r2top) / 2),
-
-            tmp;
+            y2 = scrollY + r2top + ((r2bottom - r2top) / 2);
 
         if (x1 > x2) {
             tmp = x2; x2 = x1; x1 = tmp;
@@ -126,7 +174,7 @@
 
         width = Math.round(width) - 6; // width will be NaN in case of intersection.
         tmp = 'transform:' + 'rotate(' + angle + 'rad);';
-        knitter.style.cssText = width > 0 ?
+        node.style.cssText = width > 0 ?
             'display:block;' +
             'left:' + Math.round(begin[0] + 3 * Math.cos(angle)) + 'px;' +
             'top:' + Math.round(begin[1] + 3 * Math.sin(angle)) + 'px;' +
