@@ -1,5 +1,5 @@
 /*!
- * knitter v0.0.1, https://github.com/hoho/knitter
+ * knitter v0.1.0, https://github.com/hoho/knitter
  * (c) 2015 Marat Abdullin, MIT license
  */
 (function(window, document) {
@@ -73,15 +73,32 @@
         var node = self.node,
             node1 = self.node1,
             node2 = self.node2,
-            tmp = node;
+            offsetLeft = 0,
+            offsetTop = 0,
+            i = node,
+            j;
 
-        while (tmp) {
-            if (tmp === document.body) { break; }
-            tmp = tmp.parentNode;
+        while (i) {
+            if (i === document.body) { break; }
+            i = i.parentNode;
         }
-        if (!tmp) {
+
+        if (!i) {
             delete knitters[self.id];
             return;
+        }
+
+        i = node;
+        while (i) {
+            j = i.offsetParent;
+            while (i && (i.offsetParent === j)) {
+                i = i.parentNode;
+            }
+            if (i) {
+                offsetLeft += (i.offsetLeft || 0) + (i.clientLeft || 0);
+                offsetTop += (i.offsetTop || 0) + (i.clientTop || 0);
+                console.log(i, i.offsetTop, i.clientTop);
+            }
         }
 
         if (!(self.id in knitters)) {
@@ -106,15 +123,18 @@
             x1 = scrollX + r1left + ((r1right - r1left) / 2),
             y1 = scrollY + r1top + ((r1bottom - r1top) / 2),
             x2 = scrollX + r2left + ((r2right - r2left) / 2),
-            y2 = scrollY + r2top + ((r2bottom - r2top) / 2);
+            y2 = scrollY + r2top + ((r2bottom - r2top) / 2),
+
+            p1,
+            p2;
 
         if (x1 > x2) {
-            tmp = x2; x2 = x1; x1 = tmp;
-            tmp = y2; y2 = y1; y1 = tmp;
-            tmp = r2left; r2left = r1left; r1left = tmp;
-            tmp = r2right; r2right = r1right; r1right = tmp;
-            tmp = r2top; r2top = r1top; r1top = tmp;
-            tmp = r2bottom; r2bottom = r1bottom; r1bottom = tmp;
+            i = x2; x2 = x1; x1 = i;
+            i = y2; y2 = y1; y1 = i;
+            i = r2left; r2left = r1left; r1left = i;
+            i = r2right; r2right = r1right; r1right = i;
+            i = r2top; r2top = r1top; r1top = i;
+            i = r2bottom; r2bottom = r1bottom; r1bottom = i;
         }
 
         var a1 = (r1right - r1left) / 2,
@@ -143,15 +163,15 @@
             begin;
 
         // Find two closest points on the sides.
-        for (var i = 0; i < intersects1.length; i++) {
-            var p1 = intersects1[i];
+        for (i = 0; i < intersects1.length; i++) {
+            p1 = intersects1[i];
             if ((p1[0] >= x1 - a1) &&
                 (p1[0] <= x1 + a1) &&
                 (p1[1] >= y1 - b1) &&
                 (p1[1] <= y1 + b1))
             {
-                for (var j = 0; j < intersects2.length; j++) {
-                    var p2 = intersects2[j];
+                for (j = 0; j < intersects2.length; j++) {
+                    p2 = intersects2[j];
                     if ((p2[0] >= x2 - a2) &&
                         (p2[0] <= x2 + a2) &&
                         (p2[1] >= y2 - b2) &&
@@ -173,15 +193,15 @@
         }
 
         width = Math.round(width) - 6; // width will be NaN in case of intersection.
-        tmp = 'transform:' + 'rotate(' + angle + 'rad);';
+        i = 'transform:' + 'rotate(' + angle + 'rad);';
         node.style.cssText = width > 0 ?
             'display:block;' +
-            'left:' + Math.round(begin[0] + 3 * Math.cos(angle)) + 'px;' +
-            'top:' + Math.round(begin[1] + 3 * Math.sin(angle)) + 'px;' +
+            'left:' + Math.round(begin[0] + 3 * Math.cos(angle) - offsetLeft) + 'px;' +
+            'top:' + Math.round(begin[1] + 3 * Math.sin(angle) - offsetTop) + 'px;' +
             'width:' + width + 'px;' +
-            '-webkit-' + tmp +
-            '-ms-' + tmp +
-            tmp
+            '-webkit-' + i +
+            '-ms-' + i +
+            i
             :
             'display:none;';
     }

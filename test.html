@@ -43,6 +43,36 @@ function createTestKnitters() {
     display: inline-block;
 }
 
+.top-bottom-wrapper-wrapper {
+    border: 20px solid rgba(0,0,0,.2);
+
+    margin: 100px;
+
+    padding: 50px;
+
+    position: relative;
+}
+
+.top-bottom-wrapper {
+    border: 10px solid rgba(0,0,0,.2);
+
+    margin: 100px;
+
+    padding: 50px;
+
+    position: static;
+}
+
+.top-bottom {
+    border: 30px solid rgba(0,0,0,.2);
+
+    margin-left: 200px;
+
+    padding: 50px;
+
+    position: relative;
+}
+
 .knitter1-node1 { margin: 50px 100px 150px 100px; }
 .knitter1-node2 { margin: 150px 100px 50px 100px; }
 
@@ -74,20 +104,27 @@ function createTestKnitters() {
     </div>
 </div>
 
-<div class="top-bottom">
-    <div>
-        <div class="knitter4-node1 knitter-node"></div>
-        <div class="knitter4-node2 knitter-node"></div>
+<div class="top-bottom-wrapper-wrapper">
+    <div class="top-bottom-wrapper">
+        <div class="top-bottom">
+            <div>
+                <div class="knitter4-node1 knitter-node"></div>
+                <div class="knitter4-node2 knitter-node"></div>
+            </div>
+        </div>
     </div>
+    <div class="top-bottom-wrapper">
+        <div class="top-bottom">
+            <div>
+                <div class="knitter5-node1 knitter-node"></div>
+                <div class="knitter5-node2 knitter-node"></div>
+            </div>
 
-    <div>
-        <div class="knitter5-node1 knitter-node"></div>
-        <div class="knitter5-node2 knitter-node"></div>
-    </div>
-
-    <div>
-        <div class="knitter6-node1 knitter-node"></div>
-        <div class="knitter6-node2 knitter-node"></div>
+            <div>
+                <div class="knitter6-node1 knitter-node"></div>
+                <div class="knitter6-node2 knitter-node"></div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
